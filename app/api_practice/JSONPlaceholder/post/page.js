@@ -1,30 +1,27 @@
 "use client"
 
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function App() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const handleSubmit = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
         title: title,
         body: body,
         userId: 1,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setTitle('');
-        setBody('');
       });
-  };
+
+      console.log(response.data)
+      setTitle('')
+      setBody('')
+    } catch (error) {
+      console.error("Error posintg data: ", error)
+    }
+  }
 
   return (
     <div>
